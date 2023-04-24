@@ -14,13 +14,19 @@ class Snake(object):
         # positions is a list tracking the coordinates (x, y) of all the
         # body blocks of the snake. New blocks are added to the end.
 
-        # TODO
-        # Format: self.variable_name = value
         # 1) Set up the snake's position list
+        x = SCREEN_WIDTH/2
+        y = SCREEN_HEIGHT/2
+        self.positions_list = [(x,y)]                                                
         # 2) Set up the snake's length
+        self.length = 1
         # 3) Set up the snake's direction
+        self.direction = RIGHT
         # 4) Set up the snake's color
-        pass # remove this line once you add code!
+        self.color = (69, 114, 231)
+        # 5) Calling the snake
+        self.draw(background)
+    
 
     # This returns the coordinate of the snake's head (first square)
     def get_head(self):
@@ -62,7 +68,10 @@ class Snake(object):
     # Provided: Draws all of the snake's body parts
     def draw(self, background):
         # Go through all of the cells in the position list and draw them!
-        pass # remove this line once you add code!
+        for postion in self.positions_list:
+            block = pygame.Rect(postion[0], postion[1], GRID_SIZE, GRID_SIZE)
+            pygame.draw.rect(background, self.color, block)
+            pygame.draw.rect(background, (0,0,0), block, 1)
 
     # This is a helper function which will check whether the snake is out of bounds
     # Returns True if out of bounds, False if not.
@@ -91,8 +100,8 @@ class Food(object):
 
 # USEFUL CONSTANTS
 # Screen constants
-SCREEN_WIDTH = 40 # TODO set your screen width
-SCREEN_HEIGHT = 40 # TODO set your screen height
+SCREEN_WIDTH = 680
+SCREEN_HEIGHT = 600 
 
 # Grid constants
 GRID_SIZE = 40
@@ -114,9 +123,8 @@ def drawGrid(background):
             rect_x = x * GRID_SIZE
             rect_y = y * GRID_SIZE
             next_rect = pygame.Rect(rect_x, rect_y, GRID_SIZE, GRID_SIZE)
-            # TODO: Add your own colors to the grids!
-            color_1 = (0, 0, 0)
-            color_2 = (255, 255, 255)
+            color_1 = (162, 209, 73)
+            color_2 = (170, 215, 81)
             if ((x + y) % 2 == 1):
                 pygame.draw.rect(background, color_1, next_rect)
             else:
@@ -125,15 +133,18 @@ def drawGrid(background):
 pygame.init()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 # creating a name for your game
-pygame.display.set_caption("TODO: Add your own title here!")
+pygame.display.set_caption("Snake Game 🐍")
 # creating a clock/ framerate
 clock = pygame.time.Clock()
+#Changing the app icon
+icon = pygame.image.load("Snake\images\Snake pic.jpeg")
+pygame.display.set_icon(icon)
 
 # Create a background surface!
 surface_width_height = screen.get_size()
 background = pygame.Surface(surface_width_height)
 
-
+snake = Snake()
 while True:
     # Event loop (checking for player input)
     for event in pygame.event.get():
@@ -144,5 +155,6 @@ while True:
     # Draw all of our elements! (like the draw function in trinket)
     drawGrid(background)
     screen.blit(background, (0, 0))
+    snake.draw(background)
     pygame.display.update()  # This will update the screen to the player!
     clock.tick(5) # like our framerate in trinket! tells pygame to to do this while true loop 60 times per second
