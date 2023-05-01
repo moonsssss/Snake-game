@@ -133,7 +133,7 @@ def drawGrid(background):
 pygame.init()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 # creating a name for your game
-pygame.display.set_caption("Snake Game 🐍")
+pygame.display.set_caption("Snake Game!")
 # creating a clock/ framerate
 clock = pygame.time.Clock()
 #Changing the app icon
