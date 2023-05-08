@@ -15,12 +15,12 @@ class Snake(object):
         # body blocks of the snake. New blocks are added to the end.
 
         # 1) Set up the snake's position list
-        x = SCREEN_WIDTH/2
-        y = SCREEN_HEIGHT/2
+        x = SCREEN_WIDTH/2 - GRID_SIZE/2
+        y = SCREEN_HEIGHT/2 - GRID_SIZE/2
         self.positions_list = [(x,y)]                                                
         # 2) Set up the snake's length
         self.length = 1
-        # 3) Set up the snake's direction
+        # 3) Set up the snake's direction 
         self.direction = RIGHT
         # 4) Set up the snake's color
         self.color = (69, 114, 231)
@@ -30,7 +30,8 @@ class Snake(object):
 
     # This returns the coordinate of the snake's head (first square)
     def get_head(self):
-        pass # remove this line once you add code!
+        return self.positions_list[0]
+        
 
     # `direction` represents one of the four directions the snake can turn in
     def turn(self, direction):
@@ -47,7 +48,10 @@ class Snake(object):
     # This is the function which moves the snake!
     def move(self):
         # Useful command to make a new body part:
-        # new = ((head_x_coord + snake_x_direction * GRID_SIZE), (head_y_coord + snake_y_direction * GRID_SIZE))
+        oldhead = self.get_head()
+        head_x_coord = oldhead[0]
+        head_y_coord = oldhead[1]
+        newhead = ((head_x_coord + snake_x_direction * GRID_SIZE), (head_y_coord + snake_y_direction * GRID_SIZE))
 
         # TODO Check to see if the snake move is valid
         # - If the move is valid, allow the move
@@ -67,11 +71,11 @@ class Snake(object):
 
     # Provided: Draws all of the snake's body parts
     def draw(self, background):
-        # Go through all of the cells in the position list and draw them!
-        for postion in self.positions_list:
-            block = pygame.Rect(postion[0], postion[1], GRID_SIZE, GRID_SIZE)
+        print (f"\nIn draw! positions = {self.positions_list}")
+        for position in self.positions_list:
+            block = pygame.Rect(position[0], position[1], GRID_SIZE, GRID_SIZE)
             pygame.draw.rect(background, self.color, block)
-            pygame.draw.rect(background, (0,0,0), block, 1)
+            pygame.draw.rect(background, (0, 0, 0), block, 1)
 
     # This is a helper function which will check whether the snake is out of bounds
     # Returns True if out of bounds, False if not.
@@ -130,7 +134,7 @@ def drawGrid(background):
             else:
                 pygame.draw.rect(background, color_2, next_rect)
 
-pygame.init()
+pygame.init() 
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 # creating a name for your game
 pygame.display.set_caption("Snake Game!")
@@ -154,7 +158,7 @@ while True:
             exit()
     # Draw all of our elements! (like the draw function in trinket)
     drawGrid(background)
-    screen.blit(background, (0, 0))
     snake.draw(background)
+    screen.blit(background, (0, 0))
     pygame.display.update()  # This will update the screen to the player!
     clock.tick(5) # like our framerate in trinket! tells pygame to to do this while true loop 60 times per second
