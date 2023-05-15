@@ -1,5 +1,6 @@
 """
 Starter code for retro snake game.
+Notes: You can decrease and increase the snake game map manualey for bigger or smaller play 
 """
 import pygame
 from sys import exit
@@ -19,7 +20,7 @@ class Snake(object):
         y = SCREEN_HEIGHT/2 - GRID_SIZE/2
         self.positions_list = [(x,y)]                                                
         # 2) Set up the snake's length
-        self.length = 1
+        self.length = 10
         # 3) Set up the snake's direction 
         self.direction = RIGHT
         # 4) Set up the snake's color
@@ -34,15 +35,27 @@ class Snake(object):
         
 
     # `direction` represents one of the four directions the snake can turn in
-    def turn(self, direction):
+    def turn(self, user_input):
         # If the snake is moving UP, we cannot turn DOWN
+        if self.direction == UP:
+            if user_input != DOWN:
+                self.direction = user_input
 
         # If the snake is moving DOWN, we cannot turn UP
+        elif self.direction == DOWN:
+            if user_input != UP:
+                self.direction = user_input
 
         # If the snake is moving LEFT, we cannot turn RIGHT
+        elif self.direction == LEFT:
+            if user_input != RIGHT:
+                self.direction = user_input
 
         # If the snake is moving RIGHT, we cannot turn LEFT
-        pass # remove this line once you add code!
+        elif self.direction == RIGHT:
+            if user_input != LEFT:
+                self.direction = user_input
+       
 
 
     # This is the function which moves the snake!
@@ -51,13 +64,16 @@ class Snake(object):
         oldhead = self.get_head()
         head_x_coord = oldhead[0]
         head_y_coord = oldhead[1]
+        snake_x_direction = self.direction[0]
+        snake_y_direction = self.direction[1]
         newhead = ((head_x_coord + snake_x_direction * GRID_SIZE), (head_y_coord + snake_y_direction * GRID_SIZE))
-
+        
         # TODO Check to see if the snake move is valid
         # - If the move is valid, allow the move
         # - If not, end the game.
-        pass # remove this line once you add code!
-
+        self.positions_list.insert(0, newhead)
+        if len(self.positions_list) > self.length: 
+            self.positions_list.pop()
 
     # This function will be called when the code determines the game over
     # You can have a gameover screen appear and inform the player how to play again
@@ -71,7 +87,6 @@ class Snake(object):
 
     # Provided: Draws all of the snake's body parts
     def draw(self, background):
-        print (f"\nIn draw! positions = {self.positions_list}")
         for position in self.positions_list:
             block = pygame.Rect(position[0], position[1], GRID_SIZE, GRID_SIZE)
             pygame.draw.rect(background, self.color, block)
@@ -156,8 +171,20 @@ while True:
         if event.type == pygame.QUIT:
             pygame.quit()
             exit()
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_w or event.key == pygame.K_UP:
+                snake.turn(UP)
+            elif event.key == pygame.K_s or event.key == pygame.K_DOWN:
+                snake.turn(DOWN)
+            elif event.key == pygame.K_a or event.key == pygame.K_LEFT:
+                snake.turn(LEFT)
+            elif event.key == pygame.K_d or event.key == pygame.K_RIGHT:
+                snake.turn(RIGHT)
+
+            
     # Draw all of our elements! (like the draw function in trinket)
     drawGrid(background)
+    snake.move()
     snake.draw(background)
     screen.blit(background, (0, 0))
     pygame.display.update()  # This will update the screen to the player!
