@@ -71,14 +71,22 @@ class Snake(object):
         # TODO Check to see if the snake move is valid
         # - If the move is valid, allow the move
         # - If not, end the game.
-        self.positions_list.insert(0, newhead)
-        if len(self.positions_list) > self.length: 
-            self.positions_list.pop()
-
+        if (self.outOfBounds() == True):
+            self.gameover()
+        elif len(self.positions_list) > 2 and newhead in self.positions_list[2:]:
+            self.gameover()
+        else: 
+            self.positions_list.insert(0, newhead)
+        
+            if len(self.positions_list) > self.length: 
+                self.positions_list.pop()
+            
     # This function will be called when the code determines the game over
     # You can have a gameover screen appear and inform the player how to play again
     def gameover(self):
-        pass # remove this line once you add code!
+        self.direction = GAMEOVER
+        print ("GAMEOVER")
+     
 
     # This function is called when the player restarts the game.
     # It should reset the snake back to it's initial conditions.
@@ -95,7 +103,18 @@ class Snake(object):
     # This is a helper function which will check whether the snake is out of bounds
     # Returns True if out of bounds, False if not.
     def outOfBounds(self):
-        pass # remove this line once you add code!
+        head = self.get_head()
+        head_x = head[0]
+        head_y = head[1]
+        if head_x < 0:
+            return True
+        if head_y < 0:
+            return True
+        if SCREEN_WIDTH < head_x:
+            return True
+        if SCREEN_HEIGHT < head_y:
+            return True
+        return False
 
 
 # The food (apple). Only implement after you've made the snake
