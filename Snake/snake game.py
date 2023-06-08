@@ -20,7 +20,7 @@ class Snake(object):
         y = SCREEN_HEIGHT/2 - GRID_SIZE/2
         self.positions_list = [(x,y)]                                                
         # 2) Set up the snake's length
-        self.length = 10
+        self.length = 2
         # 3) Set up the snake's direction 
         self.direction = RIGHT
         # 4) Set up the snake's color
@@ -125,16 +125,25 @@ class Food(object):
         # TODO
         # Format: self.variable_name = value
         # 1) Set up the apple's position list
+        self.place = (0,0)
         # 2) Set up the apple's color
-        pass # remove this line once you add code!
+        self.color = (231,71,29)
+        
 
     # Function to randomize the position of the food/apple when it's spawned
     def randomize_position(self):
-        pass # remove this line once you add code!
+       x = random.randint(0, NUM_GRIDS_X - 1) * GRID_SIZE
+       y = random.randint(0, NUM_GRIDS_Y - 1) * GRID_SIZE
+       self.place = (x, y)
+       
 
     # This function is responsible for actually drawing the apple onto the background provided!
     def draw(self, background):
-        pass # remove this line once you add code!
+        block = pygame.Rect(self.place[0], self.place[1], GRID_SIZE, GRID_SIZE)
+        pygame.draw.rect(background, self.color, block)
+        pygame.draw.rect(background, (0, 0, 0), block, 1)
+
+
 
 # USEFUL CONSTANTS
 # Screen constants
@@ -183,6 +192,7 @@ surface_width_height = screen.get_size()
 background = pygame.Surface(surface_width_height)
 
 snake = Snake()
+food = Food()
 while True:
     # Event loop (checking for player input)
     for event in pygame.event.get():
@@ -203,8 +213,12 @@ while True:
             
     # Draw all of our elements! (like the draw function in trinket)
     drawGrid(background)
+    if snake.get_head() == food.place:
+        snake.length =  snake.length + 1 
+        food.randomize_position()
     snake.move()
     snake.draw(background)
+    food.draw(background)
     screen.blit(background, (0, 0))
     pygame.display.update()  # This will update the screen to the player!
     clock.tick(5) # like our framerate in trinket! tells pygame to to do this while true loop 60 times per second
