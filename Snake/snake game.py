@@ -5,7 +5,7 @@ Notes: You can decrease and increase the snake game map manualey for bigger or s
 import pygame
 from sys import exit
 import random
-
+#reset = pygame.image.load("Snake\images\reset-button-computer-icons-clip-art-restart-d431af2a2c2542d3a09a1e271fd20eda.png")
 
 # The code for the snake and its behavior.
 # The snake is made up of it's length, a list of the coordinates
@@ -84,8 +84,12 @@ class Snake(object):
     # This function will be called when the code determines the game over
     # You can have a gameover screen appear and inform the player how to play again
     def gameover(self):
-        self.direction = GAMEOVER
-        print ("GAMEOVER")
+        self.direction = GAMEOVER 
+        font = pygame.font.SysFont("yugothicmedium", 60)
+        gameover_text = font.render("GAMEOVER",False, (204, 64, 0))
+        gameover_text_rect = gameover_text.get_rect(center = (SCREEN_WIDTH/2, SCREEN_HEIGHT/2))
+        background.blit(gameover_text, gameover_text_rect)
+        #reset.get_rect(center = (SCREEN_WIDTH/2, SCREEN_HEIGHT/2 + 50))
      
 
     # This function is called when the player restarts the game.
@@ -125,7 +129,7 @@ class Food(object):
         # TODO
         # Format: self.variable_name = value
         # 1) Set up the apple's position list
-        self.place = (0,0)
+        self.place = (NUM_GRIDS_X//2 * GRID_SIZE ,NUM_GRIDS_Y//2 * GRID_SIZE)
         # 2) Set up the apple's color
         self.color = (231,71,29)
         
@@ -216,9 +220,9 @@ while True:
     if snake.get_head() == food.place:
         snake.length =  snake.length + 1 
         food.randomize_position()
+    food.draw(background)
     snake.move()
     snake.draw(background)
-    food.draw(background)
     screen.blit(background, (0, 0))
     pygame.display.update()  # This will update the screen to the player!
     clock.tick(5) # like our framerate in trinket! tells pygame to to do this while true loop 60 times per second
