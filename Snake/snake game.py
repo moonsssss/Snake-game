@@ -27,7 +27,8 @@ class Snake(object):
         self.color = (69, 114, 231)
         # 5) Calling the snake
         self.draw(background)
-    
+        # 6) Senting up snake score
+        self.snakescore = 0
 
     # This returns the coordinate of the snake's head (first square)
     def get_head(self):
@@ -219,9 +220,15 @@ while True:
     drawGrid(background)
     if snake.get_head() == food.place:
         snake.length =  snake.length + 1 
+        snake.snakescore = snake.snakescore + 1 
         food.randomize_position()
     food.draw(background)
     snake.move()
+    fonts = pygame.font.Font(pygame.font.get_default_font(),20)
+    text = fonts.render(f"Score: {snake.snakescore}", False, (0, 0, 0))
+    textRect = text.get_rect()
+    textRect.center = (50, 50)
+    background.blit(text, textRect)
     snake.draw(background)
     screen.blit(background, (0, 0))
     pygame.display.update()  # This will update the screen to the player!
