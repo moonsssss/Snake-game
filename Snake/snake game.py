@@ -5,8 +5,9 @@ Notes: You can decrease and increase the snake game map manualey for bigger or s
 import pygame
 from sys import exit
 import random
+pygame.init() 
 #reset = pygame.image.load("Snake\images\reset-button-computer-icons-clip-art-restart-d431af2a2c2542d3a09a1e271fd20eda.png")
-
+gameoversound = pygame.mixer.Sound("gameover.wav")
 # The code for the snake and its behavior.
 # The snake is made up of it's length, a list of the coordinates
 # of its body blocks, and the direction it's heading in.
@@ -29,6 +30,8 @@ class Snake(object):
         self.draw(background)
         # 6) Senting up snake score
         self.snakescore = 0
+        # 7) Music
+        self.eating = pygame.mixer.Sound("Eating.wav ")
 
     # This returns the coordinate of the snake's head (first square)
     def get_head(self):
@@ -70,7 +73,7 @@ class Snake(object):
         newhead = ((head_x_coord + snake_x_direction * GRID_SIZE), (head_y_coord + snake_y_direction * GRID_SIZE))
         
         # TODO Check to see if the snake move is valid
-        # - If the move is valid, allow the move
+        # - If the move is valid, allow the move6
         # - If not, end the game.
         if (self.outOfBounds() == True):
             self.gameover()
@@ -85,11 +88,15 @@ class Snake(object):
     # This function will be called when the code determines the game over
     # You can have a gameover screen appear and inform the player how to play again
     def gameover(self):
+        if self.direction != GAMEOVER:
+            gameoversound.play()
         self.direction = GAMEOVER 
         font = pygame.font.SysFont("yugothicmedium", 60)
         gameover_text = font.render("GAMEOVER",False, (204, 64, 0))
         gameover_text_rect = gameover_text.get_rect(center = (SCREEN_WIDTH/2, SCREEN_HEIGHT/2))
         background.blit(gameover_text, gameover_text_rect)
+        
+        
         #reset.get_rect(center = (SCREEN_WIDTH/2, SCREEN_HEIGHT/2 + 50))
      
 
@@ -182,7 +189,7 @@ def drawGrid(background):
             else:
                 pygame.draw.rect(background, color_2, next_rect)
 
-pygame.init() 
+
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 # creating a name for your game
 pygame.display.set_caption("Snake Game!")
@@ -221,6 +228,7 @@ while True:
     if snake.get_head() == food.place:
         snake.length =  snake.length + 1 
         snake.snakescore = snake.snakescore + 1 
+        snake.eating.play()
         food.randomize_position()
     food.draw(background)
     snake.move()
