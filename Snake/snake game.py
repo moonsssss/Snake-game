@@ -6,6 +6,7 @@ import pygame
 from sys import exit
 import random
 pygame.init() 
+
 #reset = pygame.image.load("Snake\images\reset-button-computer-icons-clip-art-restart-d431af2a2c2542d3a09a1e271fd20eda.png")
 gameoversound = pygame.mixer.Sound("gameover.wav")
 # The code for the snake and its behavior.
@@ -93,8 +94,11 @@ class Snake(object):
         self.direction = GAMEOVER 
         font = pygame.font.SysFont("yugothicmedium", 60)
         gameover_text = font.render("GAMEOVER",False, (204, 64, 0))
+        restart_text = font.render("Space for Restart",False, (204, 64, 0))
         gameover_text_rect = gameover_text.get_rect(center = (SCREEN_WIDTH/2, SCREEN_HEIGHT/2))
+        restart_text_rect = restart_text.get_rect(center = (SCREEN_WIDTH/2, SCREEN_HEIGHT/2 + 100))
         background.blit(gameover_text, gameover_text_rect)
+        background.blit(restart_text, restart_text_rect)
         
         
         #reset.get_rect(center = (SCREEN_WIDTH/2, SCREEN_HEIGHT/2 + 50))
@@ -221,6 +225,17 @@ while True:
                 snake.turn(LEFT)
             elif event.key == pygame.K_d or event.key == pygame.K_RIGHT:
                 snake.turn(RIGHT)
+            elif event.key == pygame.K_SPACE: 
+                snake.length = 1
+                x = SCREEN_WIDTH/2 - GRID_SIZE/2
+                y = SCREEN_HEIGHT/2 - GRID_SIZE/2
+                snake.positions_list = [(x,y)]  
+                snake.snakescore = 0        
+                snake.length = 3
+                snake.direction = RIGHT
+                print(snake.direction)
+
+        
 
             
     # Draw all of our elements! (like the draw function in trinket)
