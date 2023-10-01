@@ -119,16 +119,18 @@ class Snake(object):
     # This is a helper function which will check whether the snake is out of bounds
     # Returns True if out of bounds, False if not.
     def outOfBounds(self):
+        x = 600
+        y = 600
         head = self.get_head()
         head_x = head[0]
         head_y = head[1]
-        if head_x < 0:
+        if head_x < 40:
             return True
-        if head_y < 0:
+        if head_y < 80:
             return True
-        if SCREEN_WIDTH < head_x:
+        if x < head_x:
             return True
-        if SCREEN_HEIGHT < head_y:
+        if y < head_y:
             return True
         return False
 
@@ -148,8 +150,8 @@ class Food(object):
 
     # Function to randomize the position of the food/apple when it's spawned
     def randomize_position(self):
-       x = random.randint(0, NUM_GRIDS_X - 1) * GRID_SIZE
-       y = random.randint(0, NUM_GRIDS_Y - 1) * GRID_SIZE
+       x = random.randint(1, NUM_GRIDS_X - 2) * GRID_SIZE
+       y = random.randint(2, NUM_GRIDS_Y - 2) * GRID_SIZE
        self.place = (x, y)
        
 
@@ -164,7 +166,7 @@ class Food(object):
 # USEFUL CONSTANTS
 # Screen constants
 SCREEN_WIDTH = 680
-SCREEN_HEIGHT = 600 
+SCREEN_HEIGHT = 680
 
 # Grid constants
 GRID_SIZE = 40
@@ -192,6 +194,15 @@ def drawGrid(background):
                 pygame.draw.rect(background, color_1, next_rect)
             else:
                 pygame.draw.rect(background, color_2, next_rect)
+    border_rect = pygame.Rect(0, 0 , 720, 80,)
+    color = (74,117,44)
+    pygame.draw.rect(background, color, border_rect)
+    left_border = pygame.Rect(0, 80, 40, 600)
+    pygame.draw.rect(background, color, left_border)
+    right_border = pygame.Rect(640, 80, 40, 600)
+    pygame.draw.rect(background, color, right_border)
+    bottom_border = pygame.Rect(0, 640, 680, 600)
+    pygame.draw.rect(background, color, bottom_border)
 
 
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -233,7 +244,7 @@ while True:
                 snake.snakescore = 0        
                 snake.length = 3
                 snake.direction = RIGHT
-                print(snake.direction)
+               
 
         
 
