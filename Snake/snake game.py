@@ -8,7 +8,7 @@ import random
 pygame.init() 
 
 #reset = pygame.image.load("Snake\images\reset-button-computer-icons-clip-art-restart-d431af2a2c2542d3a09a1e271fd20eda.png")
-gameoversound = pygame.mixer.Sound("gameover.wav")
+gameoversound = pygame.mixer.Sound(r"C:\Users\lochl\Coding\Snake-game\Snake\Sounds\gameover.wav")
 # The code for the snake and its behavior.
 # The snake is made up of it's length, a list of the coordinates
 # of its body blocks, and the direction it's heading in.
@@ -32,7 +32,7 @@ class Snake(object):
         # 6) Senting up snake score
         self.snakescore = 0
         # 7) Music
-        self.eating = pygame.mixer.Sound("Eating.wav ")
+        self.eating = pygame.mixer.Sound(r"C:\Users\lochl\Coding\Snake-game\Snake\Sounds\eating.wav")
 
     # This returns the coordinate of the snake's head (first square)
     def get_head(self):
@@ -211,8 +211,8 @@ pygame.display.set_caption("Snake Game!")
 # creating a clock/ framerate
 clock = pygame.time.Clock()
 #Changing the app icon
-icon = pygame.image.load("Snake\images\Snake pic.jpeg")
-pygame.display.set_icon(icon)
+#icon = pygame.image.load("Snake\images\Snake pic.jpeg")
+#pygame.display.set_icon(icon)
 
 # Create a background surface!
 surface_width_height = screen.get_size()
