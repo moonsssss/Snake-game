@@ -1,3 +1,4 @@
+https://drive.google.com/drive/u/0/folders/1VJLt_YM4PhEHINNyA_sIJFmuItb1gAcT <- Download to the game
 Download the game 
 Go into terminal on mac 
 Type chmod +x then leave a space and drag the file you downloaded into terminal 
